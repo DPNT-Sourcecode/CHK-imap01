@@ -9,9 +9,9 @@ namespace BeFaster.App.Solutions.CHK
         {
             if (string.IsNullOrEmpty(skus))
             {
-                return -1;
+                return 0;
             }
-            skus = skus.ToUpper();
+            //skus = skus.ToUpper();
             int total = 0;
             Dictionary<char, int> itemPricing = new()
             {
@@ -69,3 +69,4 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
