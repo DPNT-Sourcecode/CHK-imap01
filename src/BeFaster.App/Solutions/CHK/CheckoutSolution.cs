@@ -23,14 +23,14 @@ namespace BeFaster.App.Solutions.CHK
                 {'E',40 },
                 {'F',10 },
             };
-           List<(char SKU,int QuantityRequired, int DiscountedPrice)> discountOffers = new()
+            List<(char SKU, int QuantityRequired, int DiscountedPrice)> discountOffers = new()
             {
                 {( 'A', 5, 200) },
                {('A', 3, 130) },
                 {('B', 2, 45) },
                 {('F', 3, 20)   }
             };
-            var freeItemOffers= new List<(char SKU, int QuantityRequired, char FreeItemSKU, int FreeItemQuantity)>()
+            var freeItemOffers = new List<(char SKU, int QuantityRequired, char FreeItemSKU, int FreeItemQuantity)>()
             {
                 {('E', 2, 'B', 1) },
                 {('F', 2, 'F', 1) }
@@ -53,18 +53,19 @@ namespace BeFaster.App.Solutions.CHK
                     checkoutItems[sku] = ++value;
                 }
             }
-            var itemCounts=new Dictionary<char, int>();
-            foreach(var discount in freeItemOffers)
+            var itemCounts = new Dictionary<char, int>();
+            foreach (var discount in freeItemOffers)
             {
-               var sku = discount.SKU;
-                var quantityRequired=discount.QuantityRequired;
-                var freeItemSKU=discount.FreeItemSKU;
+                var sku = discount.SKU;
+                var quantityRequired = discount.QuantityRequired;
+                var freeItemSKU = discount.FreeItemSKU;
                 var freeItemQuantity = discount.FreeItemQuantity;
                 if (itemCounts.ContainsKey(sku))
                 {
-                    var numOfOffers=itemCounts[sku] / quantityRequired;
-                    if (numOfOffers>0)
-                    {if (freeItemSKU == sku)
+                    var numOfOffers = itemCounts[sku] / quantityRequired;
+                    if (numOfOffers > 0)
+                    {
+                        if (freeItemSKU == sku)
                         {
                             int totalGroupSize = quantityRequired + freeItemQuantity;
                             int numOfGroups = itemCounts[sku] / totalGroupSize;
@@ -81,42 +82,47 @@ namespace BeFaster.App.Solutions.CHK
                         {
                             if (itemCounts.ContainsKey(freeItemSKU))
                             {
-                                itemCounts[freeItemSKU] = Math.Max(0, itemCounts[freeItemSKU] - numOfOffers * freeItemQuantity.Value);
+                                itemCounts[freeItemSKU] = Math.Max(0, itemCounts[freeItemSKU] - numOfOffers * freeItemQuantity);
                             }
                         }
                     }
                 }
             }
-           foreach(var item in itemCounts)
+            foreach (var item in itemCounts)
             {
                 var sku = item.Key;
                 var quantity = item.Value;
-                var applicableOffers=discountOffers.Where(x => x.SKU == sku).OrderByDescending(o=>o.QuantityRequired).ToList();
-                if(applicableOffers.Any())
+                var applicableOffers = discountOffers.Where(x => x.SKU == sku).OrderByDescending(o => o.QuantityRequired).ToList();
+                if (applicableOffers.Any())
                 {
-                    foreach(var offer in applicableOffers)
+                    foreach (var offer in applicableOffers)
                     {
                         var quantityRequired = offer.QuantityRequired;
                         var discountedPrice = offer.DiscountedPrice;
-                      if(quantity>=quantityRequired)
+                        if (quantity >= quantityRequired)
                         {
                             int numOfOffers = quantity / quantityRequired;
-                            total += numOfOffers *discountedPrice;
+                            total += numOfOffers * discountedPrice;
                             quantity -= numOfOffers * quantityRequired;
-                        
+
                         }
                     }
-                
-                if(quantity>0)
+
+                    if (quantity > 0)
+                    {
+                        total += quantity * itemPricing[sku];
+                    }
+                }
+                else
                 {
                     total += quantity * itemPricing[sku];
                 }
             }
-           else
-            {
-                total +=quantity*itemPricing[sku];
-            }
+            return total;
+        }
+    }
 }
+
 
 
 
