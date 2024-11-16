@@ -25,7 +25,7 @@ namespace BeFaster.App.Solutions.CHK
             {
                 { 'A', [(5, 200,null),(3, 130,null)] },
                 { 'B', [(2, 45,null)] },
-                {'E', [(2, 40,'B')]   }
+                {'E', [(2, 80,'B')]   }
             };
 
             Dictionary<char, int> checkoutItems = new();
@@ -74,3 +74,4 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
