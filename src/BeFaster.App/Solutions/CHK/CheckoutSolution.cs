@@ -95,6 +95,27 @@ namespace BeFaster.App.Solutions.CHK
                 var quantityRequired = groupOffer.QuantityRequired;
                 var discountedPrice = groupOffer.DiscountedPrice;
                 int totalGroupItems=groupSKUs.Sum(sku=> itemCounts.ContainsKey(sku) ? itemCounts[sku] : 0);
+                while(totalGroupItems >= quantityRequired)
+                {
+                    total += discountedPrice;
+                    int itemsToRemove = quantityRequired;
+                    foreach(var sku in groupSKUs.OrderByDescending(sku => itemPricing[sku]))
+                    {
+                        if (itemCounts.ContainsKey(sku)&&itemCounts[sku] > 0)
+                        {
+                        int itemsRemoved=Math.Min(itemCounts[sku], itemsToRemove);
+                            itemCounts[sku] -= itemsRemoved;
+                            itemsToRemove -= itemsRemoved;
+                            if (itemCounts[sku] == 0)
+                            {itemCounts.Remove(sku); }
+                            if(itemsToRemove == 0)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                    totalGroupItems = groupSKUs.Sum(sku => itemCounts.ContainsKey(sku) ? itemCounts[sku] : 0);
+                }
             }
             foreach (var discount in freeItemOffers)
             {
@@ -164,6 +185,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
