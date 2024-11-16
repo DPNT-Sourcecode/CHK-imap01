@@ -21,7 +21,7 @@ namespace BeFaster.App.Solutions.CHK
                 { 'D', 15 },
                 {'E',40 },
             };
-            Dictionary<char, List<(int, int,char?)>> itemDiscounts = new()
+            Dictionary<char, List<(int, int, char?)>> itemDiscounts = new()
             {
                 { 'A', [(5, 200,null),(3, 130,null)] },
                 { 'B', [(2, 45,null)] },
@@ -52,24 +52,29 @@ namespace BeFaster.App.Solutions.CHK
                 if (itemDiscounts.ContainsKey(checkoutItem.Key))
                 {
                     var sortedDiscounts = itemDiscounts[item].OrderByDescending(x => x.Item1);
-                    foreach ( var discountedItem in sortedDiscounts)
+                    foreach (var discountedItem in sortedDiscounts)
                     {
                         if (checkoutItem.Value >= discountedItem.Item1)
-                    {
-                        var discountsApplied = quantity / discountedItem.Item1;
-                      
-                        total += discountsApplied * discountedItem.Item2;
-                        quantity -= discountsApplied * discountedItem.Item1;
+                        {
+                            var discountsApplied = quantity / discountedItem.Item1;
+
+                            total += discountsApplied * discountedItem.Item2;
+                            quantity -= discountsApplied * discountedItem.Item1;
+                            if (discountedItem.Item3.HasValue)
+                            {
+                                //
+                            }
+                        }
                     }
-                    }
-                  
+
                 }
-                    total += quantity * itemPricing[item];
+                total += quantity * itemPricing[item];
             }
             return total;
         }
     }
 }
+
 
 
 
