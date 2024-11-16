@@ -61,8 +61,10 @@ namespace BeFaster.App.Solutions.CHK
                             if (checkoutItems.ContainsKey(discountedItem.Item3.Value))
                             {
                                 var discountedItemQuantity = checkoutItems[discountedItem.Item3.Value];
+                                skus.Replace(discountedItem.Item3.Value, string.Empty);
                             }
-                }
+                        }
+                    }
             }
                 foreach (var checkoutItem in checkoutItems)
             {
@@ -106,9 +108,3 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
-
-
-
-
-
-
