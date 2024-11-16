@@ -13,9 +13,9 @@ namespace BeFaster.App.Solutions.CHK
             itemPricing.Add('B', 30);
             itemPricing.Add('C', 20);
             itemPricing.Add('D', 15);
-            Dictionary<char, (int,int)> itemDiscount = new();
-            itemDiscount.Add('A', (3,130));
-            itemDiscount.Add('B',(2, 45));
+            Dictionary<char, (int,int)> itemDiscounts = new();
+            itemDiscounts.Add('A', (3,130));
+            itemDiscounts.Add('B',(2, 45));
             if (string.IsNullOrEmpty(skus))
             {
                 return 0;
@@ -29,10 +29,14 @@ namespace BeFaster.App.Solutions.CHK
             }
             foreach(var checkoutItem in checkoutItems)
             {
-
+               if(itemDiscounts.Keys.Contains(checkoutItem.Key))
+                    {
+                    if(checkoutItem.Value>itemDiscounts)
+                }
             }
         }
     }
 }
+
 
 
