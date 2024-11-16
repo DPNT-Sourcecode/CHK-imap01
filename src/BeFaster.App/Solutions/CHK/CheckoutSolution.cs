@@ -52,30 +52,25 @@ namespace BeFaster.App.Solutions.CHK
                 if (itemDiscounts.ContainsKey(checkoutItem.Key))
                 {
                     var sortedDiscounts = itemDiscounts[item].OrderByDescending(x => x.Item1);
-                    for(var i = 0; i < sortedDiscounts.Count(); i++)
+                    foreach ( var discountedItem in sortedDiscounts)
                     {
-                     
-                    if (checkoutItem.Value >= discountedItem.Item1)
+                        if (checkoutItem.Value >= discountedItem.Item1)
                     {
                         var discountsApplied = quantity / discountedItem.Item1;
-                        var discountsLeft = quantity % discountedItem.Item1;
-                        total += discountsApplied * discountedItem.Item2 + discountsLeft * itemPricing[item];
-                        }
+                      
+                        total += discountsApplied * discountedItem.Item2;
+                        quantity -= discountsApplied * discountedItem.Item1;
                     }
-                    else
-                    {
-                        total += quantity * itemPricing[item];
                     }
+                  
                 }
-                else
-                {
                     total += quantity * itemPricing[item];
-                }
             }
             return total;
         }
     }
 }
+
 
 
 
