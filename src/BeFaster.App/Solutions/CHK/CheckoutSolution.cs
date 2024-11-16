@@ -52,13 +52,13 @@ namespace BeFaster.App.Solutions.CHK
                 var item = checkoutItem.Key;
                 var quantity = checkoutItem.Value;
                 if (itemDiscounts.ContainsKey(checkoutItem.Key))
-                {
+                { var itemDiscount = itemDiscounts[item];
                     var sortedDiscounts = itemDiscounts[item].OrderByDescending(x => x.Item1).OrderBy(x => x.Item3.HasValue);
                     foreach (var discountedItem in sortedDiscounts)
                     {
                         if (discountedItem.Item3.HasValue)
                         {
-                            if (checkoutItems.ContainsKey(discountedItem.Item3.Value) && quantity>= checkoutItems[discountedItem.Item3.Value])
+                            if (checkoutItems.ContainsKey(discountedItem.Item3.Value) && quantity>= itemDiscounts[item].)
                             {
                                 var discountedItemQuantity = checkoutItems[discountedItem.Item3.Value];
                                 checkoutItems[discountedItem.Item3.Value] -= discountedItemQuantity;
@@ -109,5 +109,6 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
