@@ -80,9 +80,11 @@ namespace BeFaster.App.Solutions.CHK
                             if (checkoutItems[freeItem] >= freeItemsToApply)
                             {
                                 checkoutItems[freeItem] -= freeItemsToApply;
+                        
                             }
                             else
                             {
+                                total -= checkoutItems[freeItem] * itemPricing[freeItem];
                                 checkoutItems[freeItem] = 0;
                             }
                         }
@@ -100,6 +102,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
