@@ -16,7 +16,9 @@ namespace BeFaster.App.Tests.Solutions.CHK
         [TestCase("EE", ExpectedResult = 80)]
         [TestCase("EEB", ExpectedResult = 80)]
         [TestCase("EEEB", ExpectedResult = 120)]
-        
+        [TestCase("EEEEBB", ExpectedResult = 160)]
+        [TestCase("BEBEEE", ExpectedResult = 160)]
+        [TestCase("ABCDEABCDE", ExpectedResult = 280)]
         [TestCase("AAAAAB", ExpectedResult = 230)]
         [TestCase("AAAAAAB", ExpectedResult = 280)]
         [TestCase("AAAAAAAAB", ExpectedResult = 360)]
@@ -34,6 +36,7 @@ namespace BeFaster.App.Tests.Solutions.CHK
         }
     }
 }
+
 
 
 
