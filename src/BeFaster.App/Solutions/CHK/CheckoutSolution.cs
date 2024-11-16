@@ -27,7 +27,7 @@ namespace BeFaster.App.Solutions.CHK
                 { 'A', [(5, 200,null),(3, 130,null)] },
                 { 'B', [(2, 45,null)] },
                 {'E', [(2, 80,'B')]   },
-                {'F', [(2, 10,'F')]   }
+                {'F', [(2, 20,'F')]   }
             };
 
             Dictionary<char, int> checkoutItems = new();
@@ -70,6 +70,10 @@ namespace BeFaster.App.Solutions.CHK
                     {
                         continue;
                     }
+                    if(discountedItem.FreeItem.Value == item && discountedItem.ItemQuantity==checkoutItemQuantity)
+                    {
+                        continue;
+                    }
                     while (checkoutItemQuantity >= discountedItem.ItemQuantity)
                     {
                         var discountedItemQuantity = checkoutItems[discountedItem.FreeItem.Value];
@@ -103,6 +107,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
