@@ -75,10 +75,18 @@ namespace BeFaster.App.Solutions.CHK
                         continue;
                     }
                     while (checkoutItemQuantity >= discountedItem.ItemQuantity)
-                    {var discountsToApply = checkoutItemQuantity / discountedItem.ItemQuantity;
-                    var itemsToDiscount=checkoutItemQuantity/ discountedItem.ItemQuantity;
-                        checkoutItemQuantity -= itemsToDiscount;
-                        checkoutItems[item] = checkoutItemQuantity;
+                    {
+                        var timesToApply = checkoutItemQuantity / discountedItem.ItemQuantity;
+                    var freeItemsToAdd= timesToApply / discountedItem.FreeItem.Value;
+                        checkoutItemQuantity -= timesToApply*discountedItem.FreeItem.Value;
+                        if(checkoutItems.ContainsKey(discountedItem.FreeItem.Value))
+                        {
+                            checkoutItems[discountedItem.FreeItem.Value] += freeItemsToAdd;
+                        }
+                        else
+                        {
+                            checkoutItems.Add(discountedItem.FreeItem.Value, freeItemsToAdd);
+                        }
                     }
                 }
             }
@@ -106,5 +114,6 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
