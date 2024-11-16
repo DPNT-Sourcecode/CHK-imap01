@@ -49,7 +49,7 @@ namespace BeFaster.App.Solutions.CHK
             }
             //free items
 
-            foreach (var checkoutItem in checkoutItems)
+            foreach (var checkoutItem in checkoutItems.ToList())
             {
                 var item = checkoutItem.Key;
                 var checkoutItemQuantity = checkoutItem.Value;
@@ -74,8 +74,7 @@ namespace BeFaster.App.Solutions.CHK
                     {
                         continue;
                     }
-                    while (checkoutItemQuantity >= discountedItem.ItemQuantity)
-                    {
+                  
                         var timesToApply = checkoutItemQuantity / discountedItem.ItemQuantity;
                     var freeItemsToAdd= timesToApply * discountedItem.FreeItem.Value;
                         checkoutItemQuantity -= timesToApply*discountedItem.FreeItem.Value;
@@ -87,7 +86,7 @@ namespace BeFaster.App.Solutions.CHK
                         {
                             checkoutItems.Add(discountedItem.FreeItem.Value, freeItemsToAdd);
                         }
-                    }
+                    
                 }
             }
             foreach (var checkoutItem in checkoutItems)
@@ -114,6 +113,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
