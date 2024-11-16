@@ -20,25 +20,36 @@ namespace BeFaster.App.Solutions.CHK
                 { 'C', 20 },
                 { 'D', 15 }
             };
-            Dictionary<char, (int,int)> itemDiscounts = new()
+            Dictionary<char, (int, int)> itemDiscounts = new()
             {
                 { 'A', (3, 130) },
                 { 'B', (2, 45) }
             };
-          
+
             Dictionary<char, int> checkoutItems = new();
-            foreach(var sku in skus)
+            foreach (var sku in skus)
             {
                 if (!itemPricing.ContainsKey(sku))
+                {
                     return -1;
-                checkoutItems.Add(sku, 1);
+                }
+
+                if (!checkoutItems.TryGetValue(sku, out int value))
+                {
+                    checkoutItems.Add(sku, 1);
+                }
+                else
+                {
+                    checkoutItems[sku] = ++value;
+                }
             }
-            foreach(var checkoutItem in checkoutItems)
-            {var item= checkoutItem.Key;
-              var quantity = checkoutItem.Value;
+            foreach (var checkoutItem in checkoutItems)
+            {
+                var item = checkoutItem.Key;
+                var quantity = checkoutItem.Value;
                 if (itemDiscounts.TryGetValue(checkoutItem.Key, out (int, int) discountedItem))
-                    {
-                    if (checkoutItem.Value >discountedItem.Item1)
+                {
+                    if (checkoutItem.Value > discountedItem.Item1)
                     {
                         var discountsApplied = quantity / discountedItem.Item1;
                         var discountsLeft = quantity % discountedItem.Item1;
@@ -54,6 +65,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
