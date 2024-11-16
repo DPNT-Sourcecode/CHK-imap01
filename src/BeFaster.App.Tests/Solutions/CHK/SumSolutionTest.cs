@@ -1,4 +1,5 @@
-﻿using BeFaster.App.Solutions.SUM;
+﻿using BeFaster.App.Solutions.CHL;
+using BeFaster.App.Solutions.SUM;
 using NUnit.Framework;
 
 namespace BeFaster.App.Tests.Solutions.CHK
@@ -6,11 +7,15 @@ namespace BeFaster.App.Tests.Solutions.CHK
     [TestFixture]
     public class CheckoutSolutionTest
     {
-        [TestCase(1, 1, ExpectedResult = 2)]
-        [TestCase(1, 1, ExpectedResult = 2)]
-        public int ComputeSum(int x, int y)
+        [TestCase("ABCD", ExpectedResult = 115)]
+        [TestCase("AAAB", ExpectedResult = 160)]
+        [TestCase("ABCEEEEEGG", ExpectedResult = -1)]
+        [TestCase("AAABB", ExpectedResult = 175)]
+        [TestCase("AAABBCCD", ExpectedResult = 175)]
+        public int ComputeSum(string? skus)
         {
-            return SumSolution.Sum(x, y);
+            return CheckliteSolution.ComputePrice(skus);
         }
     }
 }
+

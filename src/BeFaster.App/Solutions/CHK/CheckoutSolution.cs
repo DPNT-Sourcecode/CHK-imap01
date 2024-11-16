@@ -7,6 +7,11 @@ namespace BeFaster.App.Solutions.CHK
     {
         public static int ComputePrice(string? skus)
         {
+            if (string.IsNullOrEmpty(skus))
+            {
+                return -1;
+            }
+            skus = skus.ToUpper();
             int total = 0;
             Dictionary<char, int> itemPricing = new()
             {
@@ -20,23 +25,19 @@ namespace BeFaster.App.Solutions.CHK
                 { 'A', (3, 130) },
                 { 'B', (2, 45) }
             };
-            if (string.IsNullOrEmpty(skus))
-            {
-                return 0;
-            }
+          
             Dictionary<char, int> checkoutItems = new();
             foreach(var sku in skus)
             {
-                if (!itemPricing.Keys.Contains(sku))
+                if (!itemPricing.ContainsKey(sku))
                     return -1;
                 checkoutItems.Add(sku, 1);
             }
             foreach(var checkoutItem in checkoutItems)
             {var item= checkoutItem.Key;
               var quantity = checkoutItem.Value;
-                if (itemDiscounts.Keys.Contains(checkoutItem.Key))
+                if (itemDiscounts.TryGetValue(checkoutItem.Key, out (int, int) discountedItem))
                     {
-                    var discountedItem = itemDiscounts[checkoutItem.Key];
                     if (checkoutItem.Value >discountedItem.Item1)
                     {
                         var discountsApplied = quantity / discountedItem.Item1;
@@ -53,6 +54,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
