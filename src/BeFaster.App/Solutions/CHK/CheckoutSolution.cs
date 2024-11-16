@@ -58,7 +58,8 @@ namespace BeFaster.App.Solutions.CHK
                     {
                         if (discountedItem.Item3.HasValue)
                         {
-                            if (checkoutItems.ContainsKey(discountedItem.Item3.Value) && quantity>= itemDiscounts[item].)
+
+                            if (checkoutItems.ContainsKey(discountedItem.Item3.Value) && quantity>= discountedItem.Item3)
                             {
                                 var discountedItemQuantity = checkoutItems[discountedItem.Item3.Value];
                                 checkoutItems[discountedItem.Item3.Value] -= discountedItemQuantity;
@@ -109,6 +110,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
