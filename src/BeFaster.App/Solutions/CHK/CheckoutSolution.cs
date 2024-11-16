@@ -53,7 +53,7 @@ namespace BeFaster.App.Solutions.CHK
                     checkoutItems[sku] = ++value;
                 }
             }
-            var itemCounts = new Dictionary<char, int>();
+            var itemCounts =checkoutItems;
             foreach (var discount in freeItemOffers)
             {
                 var sku = discount.SKU;
@@ -122,6 +122,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
