@@ -54,16 +54,17 @@ namespace BeFaster.App.Solutions.CHK
                 if (itemDiscounts.ContainsKey(checkoutItem.Key))
                 {
                     var itemDiscount = itemDiscounts[item];
-                    var sortedDiscounts = itemDiscounts[item].OrderByDescending(x => x.Item1).OrderBy(x => x.Item3.HasValue);
+                    var sortedDiscounts = itemDiscounts[item].OrderByDescending(x => x.ItemQuantity).OrderBy(x => x.FreeItem.HasValue);
                     foreach (var discountedItem in sortedDiscounts)
                     {
-                        if (discountedItem.Item3.HasValue)
+                        if (discountedItem.FreeItem.HasValue)
                         {
 
-                            if (checkoutItems.ContainsKey(discountedItem.Item3.Value) && checkoutItemQuantity>= discountedItem.Item1)
+                            if (checkoutItems.ContainsKey(discountedItem.FreeItem.Value) && checkoutItemQuantity>= discountedItem.ItemQuantity)
                             {
-                                var discountedItemQuantity = checkoutItems[discountedItem.Item3.Value]-discountedItem.Item1;
-                                checkoutItems[discountedItem.Item3.Value] -= discountedItem.Item3.Value.ToString().Length*discountedItemQuantity;
+                                var discountedItemQuantity = checkoutItems[discountedItem.FreeItem.Value];
+                               var quantityToRemove = discountedItem.FreeItem.Value.ToString().Length*discountedItemQuantity;
+                                checkoutItems[discountedItem.FreeItem.Value] -= quantityToRemove;
                             }
                         }
                     }
@@ -75,15 +76,15 @@ namespace BeFaster.App.Solutions.CHK
                 var quantity = checkoutItem.Value;
                 if (itemDiscounts.ContainsKey(checkoutItem.Key))
                 {
-                    var sortedDiscounts = itemDiscounts[item].OrderByDescending(x => x.Item1).OrderBy(x => x.Item3.HasValue) ;
+                    var sortedDiscounts = itemDiscounts[item].OrderByDescending(x => x.ItemQuantity).OrderBy(x => x.FreeItem.HasValue) ;
                     foreach (var discountedItem in sortedDiscounts)
                     {
-                        if (checkoutItem.Value >= discountedItem.Item1)
+                        if (checkoutItem.Value >= discountedItem.ItemQuantity)
                         {
-                            var discountsApplied = quantity / discountedItem.Item1;
+                            var discountsApplied = quantity / discountedItem.ItemQuantity;
 
-                            total += discountsApplied * discountedItem.Item2;
-                            quantity -= discountsApplied * discountedItem.Item1;
+                            total += discountsApplied * discountedItem.ItemQuantityPrice;
+                            quantity -= discountsApplied * discountedItem.ItemQuantity;
                             //if (discountedItem.Item3.HasValue)
                             //{if(checkoutItems.ContainsKey(discountedItem.Item3.Value))
                             //    {
@@ -111,6 +112,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
