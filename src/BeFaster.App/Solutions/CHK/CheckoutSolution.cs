@@ -28,7 +28,7 @@ namespace BeFaster.App.Solutions.CHK
                 {( 'A', 5, 200) },
                {('A', 3, 130) },
                 {('B', 2, 45) },
-                {('F', 3, 20)   }
+             
             };
             var freeItemOffers = new List<(char SKU, int QuantityRequired, char FreeItemSKU, int FreeItemQuantity)>()
             {
@@ -122,6 +122,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
