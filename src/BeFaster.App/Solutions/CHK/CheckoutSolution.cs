@@ -77,7 +77,7 @@ namespace BeFaster.App.Solutions.CHK
                     while (checkoutItemQuantity >= discountedItem.ItemQuantity)
                     {
                         var timesToApply = checkoutItemQuantity / discountedItem.ItemQuantity;
-                    var freeItemsToAdd= timesToApply / discountedItem.FreeItem.Value;
+                    var freeItemsToAdd= timesToApply * discountedItem.FreeItem.Value;
                         checkoutItemQuantity -= timesToApply*discountedItem.FreeItem.Value;
                         if(checkoutItems.ContainsKey(discountedItem.FreeItem.Value))
                         {
@@ -114,6 +114,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
