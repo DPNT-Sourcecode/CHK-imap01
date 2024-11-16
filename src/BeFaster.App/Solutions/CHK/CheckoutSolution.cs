@@ -58,10 +58,12 @@ namespace BeFaster.App.Solutions.CHK
                 }
                 else
                 {
-                    var sortedDiscounts = itemDiscounts[item].OrderByDescending(x => x.ItemQuantity).ThenBy(x=>x.FreeItem.HasValue).ToList();
+                    var sortedDiscounts = itemDiscounts[item]
+                        .OrderByDescending(x => x.ItemQuantity)
+                        .ThenBy(x => x.FreeItem.HasValue).ToList();
                     foreach (var discountedItem in sortedDiscounts)
                     {
-                     if(quantity < discountedItem.ItemQuantity)
+                        if (quantity < discountedItem.ItemQuantity)
                         {
                             continue;
                         }
@@ -81,26 +83,25 @@ namespace BeFaster.App.Solutions.CHK
                             if (checkoutItems[freeItem] >= freeItemsToApply)
                             {
                                 checkoutItems[freeItem] -= freeItemsToApply;
-                                total-= freeItemsToApply * itemPricing[freeItem];
+                                total -= freeItemsToApply * itemPricing[freeItem];
                             }
                             else
-                            {total -= checkoutItems[freeItem] * itemPricing[freeItem];
-                                checkoutItems[freeItem] = 0;
-                            }
-                            if (quantity < 0)
                             {
-                              quantity=0;
+                                total -= checkoutItems[freeItem] * itemPricing[freeItem];
+                                checkoutItems[freeItem] = 0;
                             }
                         }
                     }
+                    if (quantity > 0)
+                    {
+                        total += quantity * itemPricing[item];
+                    }
                 }
-                if (quantity > 0)
-                {
-                    total += quantity * itemPricing[item];
-                }
+
             }
             return total;
         }
     }
 }
+
 
