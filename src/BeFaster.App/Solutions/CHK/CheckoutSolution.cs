@@ -49,11 +49,15 @@ namespace BeFaster.App.Solutions.CHK
                 var quantity = checkoutItem.Value;
                 if (itemDiscounts.TryGetValue(checkoutItem.Key, out (int, int) discountedItem))
                 {
-                    if (checkoutItem.Value > discountedItem.Item1)
+                    if (checkoutItem.Value >= discountedItem.Item1)
                     {
                         var discountsApplied = quantity / discountedItem.Item1;
                         var discountsLeft = quantity % discountedItem.Item1;
                         total += discountsApplied * discountedItem.Item2 + discountsLeft * itemPricing[item];
+                    }
+                    else
+                    {
+                        total += quantity * itemPricing[item];
                     }
                 }
                 else
@@ -65,9 +69,3 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
-
-
-
-
-
-
