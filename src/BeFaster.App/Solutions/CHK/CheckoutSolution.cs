@@ -87,6 +87,15 @@ namespace BeFaster.App.Solutions.CHK
                 }
             }
             var itemCounts =checkoutItems;
+
+
+            foreach (var groupOffer in groupDiscountOffers)
+            {
+                var groupSKUs = groupOffer.SKUs;
+                var quantityRequired = groupOffer.QuantityRequired;
+                var discountedPrice = groupOffer.DiscountedPrice;
+                int totalGroupItems=groupSKUs.Sum(sku=> itemCounts.ContainsKey(sku) ? itemCounts[sku] : 0);
+            }
             foreach (var discount in freeItemOffers)
             {
                 var sku = discount.SKU;
@@ -155,6 +164,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
