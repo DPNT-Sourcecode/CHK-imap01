@@ -78,7 +78,7 @@ namespace BeFaster.App.Solutions.CHK
                     {var discountsToApply = checkoutItemQuantity / discountedItem.ItemQuantity;
                     var itemsToDiscount=checkoutItemQuantity/ discountedItem.ItemQuantity;
                         checkoutItemQuantity -= itemsToDiscount;
-                        
+                        checkoutItems[item] = checkoutItemQuantity;
                     }
                 }
             }
@@ -106,4 +106,5 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
