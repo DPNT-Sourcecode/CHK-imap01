@@ -87,10 +87,37 @@ namespace BeFaster.App.Solutions.CHK
                     }
                 }
             }
-           
-        }
-    }
+           foreach(var item in itemCounts)
+            {
+                var sku = item.Key;
+                var quantity = item.Value;
+                var applicableOffers=discountOffers.Where(x => x.SKU == sku).OrderByDescending(o=>o.QuantityRequired).ToList();
+                if(applicableOffers.Any())
+                {
+                    foreach(var offer in applicableOffers)
+                    {
+                        var quantityRequired = offer.QuantityRequired;
+                        var discountedPrice = offer.DiscountedPrice;
+                      if(quantity>=quantityRequired)
+                        {
+                            int numOfOffers = quantity / quantityRequired;
+                            total += numOfOffers *discountedPrice;
+                            quantity -= numOfOffers * quantityRequired;
+                        
+                        }
+                    }
+                
+                if(quantity>0)
+                {
+                    total += quantity * itemPricing[sku];
+                }
+            }
+           else
+            {
+                total +=quantity*itemPricing[sku];
+            }
 }
+
 
 
 
