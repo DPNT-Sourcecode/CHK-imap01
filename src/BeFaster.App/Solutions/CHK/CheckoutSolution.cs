@@ -59,7 +59,7 @@ namespace BeFaster.App.Solutions.CHK
                     {
                         if (discountedItem.FreeItem.HasValue)
                         {
-                            while (checkoutItemQuantity > discountedItem.ItemQuantity)
+                            while (checkoutItemQuantity >= discountedItem.ItemQuantity && checkoutItemQuantity!=0)
                             {
                                 if (checkoutItems.ContainsKey(discountedItem.FreeItem.Value) && checkoutItemQuantity >= discountedItem.ItemQuantity)
                                 {
@@ -97,4 +97,5 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
