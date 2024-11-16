@@ -11,6 +11,7 @@ namespace BeFaster.App.Solutions.CHK
             {
                 return 0;
             }
+            
             //skus = skus.ToUpper();
             int total = 0;
             Dictionary<char, int> itemPricing = new()
@@ -56,8 +57,6 @@ namespace BeFaster.App.Solutions.CHK
                     total += quantity * itemPricing[item];
                     continue;
                 }
-                else
-                {
                     var sortedDiscounts = itemDiscounts[item]
                         .OrderByDescending(x => x.ItemQuantity)
                         .ThenBy(x => x.FreeItem.HasValue).ToList();
@@ -75,10 +74,8 @@ namespace BeFaster.App.Solutions.CHK
 
                             var freeItem = discountedItem.FreeItem.Value;
 
-                            if (!checkoutItems.ContainsKey(freeItem))
+                            if (checkoutItems.ContainsKey(freeItem))
                             {
-                                continue;
-                            }
                             var freeItemsToApply = discountsApplied;
                             if (checkoutItems[freeItem] >= freeItemsToApply)
                             {
@@ -91,6 +88,8 @@ namespace BeFaster.App.Solutions.CHK
                                 checkoutItems[freeItem] = 0;
                             }
                         }
+                          
+                        }
                     }
                     if (quantity > 0)
                     {
@@ -98,10 +97,11 @@ namespace BeFaster.App.Solutions.CHK
                     }
                 }
 
-            }
+            
             return total;
         }
     }
 }
+
 
 
