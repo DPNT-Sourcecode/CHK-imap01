@@ -61,33 +61,36 @@ namespace BeFaster.App.Solutions.CHK
                     var sortedDiscounts = itemDiscounts[item].Where(x => x.FreeItem is null).OrderByDescending(x => x.ItemQuantity).ToList();
                     foreach (var discountedItem in sortedDiscounts)
                     {
-                        if (checkoutItem.Value < discountedItem.ItemQuantity)
-                        {
-                            continue;
-                        }
+                     
                         var discountsApplied = quantity / discountedItem.ItemQuantity;
                         total += discountsApplied * discountedItem.ItemQuantityPrice;
                         quantity -= discountsApplied * discountedItem.ItemQuantity;
-                        if (!discountedItem.FreeItem.HasValue)
+                        if (discountedItem.FreeItem.HasValue)
                         {
-                            continue;
-                        }
-                        var freeItem = discountedItem.FreeItem.Value;
 
-                        if (!checkoutItems.ContainsKey(freeItem))
-                        {
-                            continue;
+                            var freeItem = discountedItem.FreeItem.Value;
+
+                            if (!checkoutItems.ContainsKey(freeItem))
+                            {
+                                continue;
+                            }
+                            var freeItemsToApply = discountsApplied;
+                            if (checkoutItems[freeItem] >= freeItemsToApply)
+                            {
+                                checkoutItems[freeItem] -= freeItemsToApply;
+                            }
+                            else
+                            {
+                                checkoutItems[freeItem] = 0;
+                            }
+                            if (quantity < 0)
+                            {
+                              quantity=0;
+                            }
                         }
-                        var freeItemsToApply = discountsApplied;
-                        if (checkoutItems[freeItem] >= freeItemsToApply)
-                        {
-                            checkoutItems[freeItem] -= freeItemsToApply;
-                        }
-                        else {
-                            checkoutItems[freeItem] = 0; }
                     }
                 }
-                if(quantity>0)
+                if (quantity > 0)
                 {
                     total += quantity * itemPricing[item];
                 }
@@ -96,6 +99,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
