@@ -49,10 +49,10 @@ namespace BeFaster.App.Solutions.CHK
             }
             //free items
 
-            foreach (var checkoutItem in checkoutItems)
+            foreach (var checkoutItem in checkoutItems.ToList())
             {
                 var item = checkoutItem.Key;
-                var checkoutItemQuantity = checkoutItem.Value;
+                var quantity = checkoutItem.Value;
                 if (!itemDiscounts.ContainsKey(checkoutItem.Key))
                 {
                     continue;
@@ -65,14 +65,14 @@ namespace BeFaster.App.Solutions.CHK
                     {
                         continue;
                     }
-                    if (!checkoutItems.ContainsKey(discountedItem.FreeItem.Value) || checkoutItemQuantity < discountedItem.ItemQuantity)
+                    if (!checkoutItems.ContainsKey(discountedItem.FreeItem.Value) || quantity < discountedItem.ItemQuantity)
                     {
                         continue;
                     }
                     int totalItemsDiscounted = 0;
                     int totalFreeItems = 0;
                     var freeItem= discountedItem.FreeItem.Value;
-                    var timesToApply = (checkoutItemQuantity -totalItemsDiscounted)
+                    var timesToApply = (quantity -totalItemsDiscounted)
                         / discountedItem.ItemQuantity;
                     if(timesToApply<=0)
                     {
@@ -99,23 +99,30 @@ namespace BeFaster.App.Solutions.CHK
             {
                 var item = checkoutItem.Key;
                 var quantity = checkoutItem.Value;
-                if (itemDiscounts.ContainsKey(checkoutItem.Key))
+                if (!itemDiscounts.ContainsKey(checkoutItem.Key))
+                {
+                    total += quantity * itemPricing[item];
+                    continue;
+                }
+                else
                 {
                     var sortedDiscounts = itemDiscounts[item].Where(x => x.FreeItem is null).OrderByDescending(x => x.ItemQuantity).ToList();
                     foreach (var discountedItem in sortedDiscounts)
                     {
-                        if (checkoutItem.Value >= discountedItem.ItemQuantity)
+                        if (checkoutItem.Value < discountedItem.ItemQuantity)
                         {
-                            var discountsApplied = quantity / discountedItem.ItemQuantity;
-                            total += discountsApplied * discountedItem.ItemQuantityPrice;
-                            quantity -= discountsApplied * discountedItem.ItemQuantity;
+                            continue;
                         }
+                        var discountsApplied = quantity / discountedItem.ItemQuantity;
+                        total += discountsApplied * discountedItem.ItemQuantityPrice;
+                        quantity -= discountsApplied * discountedItem.ItemQuantity;
                     }
 
                 }
-                total += quantity * itemPricing[item];
+                
             }
             return total;
         }
     }
 }
+
