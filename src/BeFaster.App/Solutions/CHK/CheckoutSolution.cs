@@ -75,11 +75,10 @@ namespace BeFaster.App.Solutions.CHK
                         continue;
                     }
                     while (checkoutItemQuantity >= discountedItem.ItemQuantity)
-                    {
-                        var discountedItemQuantity = checkoutItems[discountedItem.FreeItem.Value];
-                        var quantityToRemove = discountedItem.FreeItem.Value.ToString().Length;
-                        checkoutItems[discountedItem.FreeItem.Value] -= quantityToRemove;
-                        checkoutItemQuantity -= discountedItem.ItemQuantity;
+                    {var discountsToApply = checkoutItemQuantity / discountedItem.ItemQuantity;
+                    var itemsToDiscount=checkoutItemQuantity/ discountedItem.ItemQuantity;
+                        checkoutItemQuantity -= itemsToDiscount;
+                        
                     }
                 }
             }
@@ -107,3 +106,4 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
