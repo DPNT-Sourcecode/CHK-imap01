@@ -7,7 +7,14 @@ namespace BeFaster.App.Solutions.CHK
         public static int ComputePrice(string? skus)
         {
             int total = 0;
-            char[] items = ['A', 'B', 'C', 'D'];
+            Dictionary<char, int> itemPricing = new[]
+            {
+                new KeyValuePair<char, int>('A', 50),
+                new KeyValuePair<char, int>('B', 30),
+                new KeyValuePair<char, int>('C', 20),
+                new KeyValuePair<char, int>('D', 15)
+            };
+
             if (string.IsNullOrEmpty(skus))
             {
                 return 0;
@@ -19,6 +26,11 @@ namespace BeFaster.App.Solutions.CHK
                     return -1;
                 checkoutItems.Add(sku, 1);
             }
+            foreach(var checkoutItem in checkoutItems)
+            {
+
+            }
         }
     }
 }
+
