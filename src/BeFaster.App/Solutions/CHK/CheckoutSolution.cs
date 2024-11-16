@@ -20,12 +20,14 @@ namespace BeFaster.App.Solutions.CHK
                 { 'C', 20 },
                 { 'D', 15 },
                 {'E',40 },
+                {'F',10 },
             };
             Dictionary<char, List<(int ItemQuantity, int ItemQuantityPrice, char? FreeItem)>> itemDiscounts = new()
             {
                 { 'A', [(5, 200,null),(3, 130,null)] },
                 { 'B', [(2, 45,null)] },
-                {'E', [(2, 80,'B')]   }
+                {'E', [(2, 80,'B')]   },
+                {'F', [(2, 10,'F')]   }
             };
 
             Dictionary<char, int> checkoutItems = new();
@@ -98,6 +100,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
