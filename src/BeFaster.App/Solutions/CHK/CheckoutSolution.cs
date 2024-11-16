@@ -30,6 +30,11 @@ namespace BeFaster.App.Solutions.CHK
                 {('B', 2, 45) },
                 {('F', 3, 20)   }
             };
+            var freeItemOffers= new List<(char SKU, int QuantityRequired, char FreeItemSKU, int FreeItemQuantity)>()
+            {
+                {('E', 2, 'B', 1) },
+                {('F', 2, 'F', 1) }
+            };
 
             Dictionary<char, int> checkoutItems = new();
             foreach (var sku in skus)
@@ -49,11 +54,11 @@ namespace BeFaster.App.Solutions.CHK
                 }
             }
             var itemCounts=new Dictionary<char, int>();
-            foreach(var discount in itemDiscounts)
+            foreach(var discount in freeItemOffers)
             {
                var sku = discount.SKU;
-                var quantityRequired=discount.Quantity;
-                var freeItemSKU=(char)discount.FreeItemSKU;
+                var quantityRequired=discount.QuantityRequired;
+                var freeItemSKU=discount.FreeItemSKU;
                 var freeItemQuantity = discount.FreeItemQuantity;
                 if (itemCounts.ContainsKey(sku))
                 {
@@ -120,4 +125,5 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
