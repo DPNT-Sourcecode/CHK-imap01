@@ -75,17 +75,12 @@ namespace BeFaster.App.Solutions.CHK
                         continue;
                     }
 
-                    var freeItemsToAdd = timesToApply * discountedItem.FreeItem.ToString().Length;
                    
                     if (checkoutItems.ContainsKey(discountedItem.FreeItem.Value))
                     {
-                        checkoutItems[discountedItem.FreeItem.Value] += freeItemsToAdd;
+                        checkoutItems[discountedItem.FreeItem.Value] -= timesToApply;
                     }
-                    else
-                    {
-                        checkoutItems.Add(discountedItem.FreeItem.Value, freeItemsToAdd);
-                    }
-
+               
                 }
             }
             foreach (var checkoutItem in checkoutItems)
@@ -112,4 +107,5 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
