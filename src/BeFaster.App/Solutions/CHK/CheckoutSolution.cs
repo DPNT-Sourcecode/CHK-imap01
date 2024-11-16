@@ -45,7 +45,26 @@ namespace BeFaster.App.Solutions.CHK
                     checkoutItems[sku] = ++value;
                 }
             }
+            //free items
+
             foreach (var checkoutItem in checkoutItems)
+            {
+                var item = checkoutItem.Key;
+                var quantity = checkoutItem.Value;
+                if (itemDiscounts.ContainsKey(checkoutItem.Key))
+                {
+                    var sortedDiscounts = itemDiscounts[item].OrderByDescending(x => x.Item1).OrderBy(x => x.Item3.HasValue);
+                    foreach (var discountedItem in sortedDiscounts)
+                    {
+                        if (discountedItem.Item3.HasValue)
+                        {
+                            if (checkoutItems.ContainsKey(discountedItem.Item3.Value))
+                            {
+                                var discountedItemQuantity = checkoutItems[discountedItem.Item3.Value];
+                            }
+                }
+            }
+                foreach (var checkoutItem in checkoutItems)
             {
                 var item = checkoutItem.Key;
                 var quantity = checkoutItem.Value;
@@ -87,6 +106,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
