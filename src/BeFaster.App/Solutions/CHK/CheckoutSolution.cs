@@ -21,10 +21,10 @@ namespace BeFaster.App.Solutions.CHK
                 { 'D', 15 },
                 {'E',40 },
             };
-            Dictionary<char, List<(int, int,char)>> itemDiscounts = new()
+            Dictionary<char, List<(int, int,char?)>> itemDiscounts = new()
             {
-                { 'A', [(5, 200),(3, 130)] },
-                { 'B', [(2, 45)] },
+                { 'A', [(5, 200,null),(3, 130,null)] },
+                { 'B', [(2, 45,null)] },
                 {'E', [(2, 40,'B')]   }
             };
 
@@ -49,7 +49,7 @@ namespace BeFaster.App.Solutions.CHK
             {
                 var item = checkoutItem.Key;
                 var quantity = checkoutItem.Value;
-                if (itemDiscounts.TryGetValue(checkoutItem.Key, out (int, int) discountedItem))
+                if (itemDiscounts.TryGetValue(checkoutItem.Key, out List<(int, int,char?)> discountedItem?? []))
                 {
                     if (checkoutItem.Value >= discountedItem.Item1)
                     {
@@ -71,6 +71,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
