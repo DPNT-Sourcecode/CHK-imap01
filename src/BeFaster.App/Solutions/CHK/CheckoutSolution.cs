@@ -59,49 +59,34 @@ namespace BeFaster.App.Solutions.CHK
                     {
                         if (discountedItem.FreeItem.HasValue)
                         {
-
-                            if (checkoutItems.ContainsKey(discountedItem.FreeItem.Value) && checkoutItemQuantity>= discountedItem.ItemQuantity)
+                            while (checkoutItemQuantity > discountedItem.ItemQuantity)
                             {
-                                var discountedItemQuantity = checkoutItems[discountedItem.FreeItem.Value];
-                               var quantityToRemove = discountedItem.FreeItem.Value.ToString().Length;
-                                checkoutItems[discountedItem.FreeItem.Value] -= quantityToRemove;
+                                if (checkoutItems.ContainsKey(discountedItem.FreeItem.Value) && checkoutItemQuantity >= discountedItem.ItemQuantity)
+                                {
+                                    var discountedItemQuantity = checkoutItems[discountedItem.FreeItem.Value];
+                                    var quantityToRemove = discountedItem.FreeItem.Value.ToString().Length;
+                                    checkoutItems[discountedItem.FreeItem.Value] -= quantityToRemove;
+                                    checkoutItemQuantity -= discountedItem.ItemQuantity;
+                                }
                             }
                         }
                     }
                 }
             }
-                foreach (var checkoutItem in checkoutItems)
+            foreach (var checkoutItem in checkoutItems)
             {
                 var item = checkoutItem.Key;
                 var quantity = checkoutItem.Value;
                 if (itemDiscounts.ContainsKey(checkoutItem.Key))
                 {
-                    var sortedDiscounts = itemDiscounts[item].OrderByDescending(x => x.ItemQuantity).OrderBy(x => x.FreeItem.HasValue) ;
+                    var sortedDiscounts = itemDiscounts[item].OrderByDescending(x => x.ItemQuantity).OrderBy(x => x.FreeItem.HasValue);
                     foreach (var discountedItem in sortedDiscounts)
                     {
                         if (checkoutItem.Value >= discountedItem.ItemQuantity)
                         {
                             var discountsApplied = quantity / discountedItem.ItemQuantity;
-
                             total += discountsApplied * discountedItem.ItemQuantityPrice;
                             quantity -= discountsApplied * discountedItem.ItemQuantity;
-                            //if (discountedItem.Item3.HasValue)
-                            //{if(checkoutItems.ContainsKey(discountedItem.Item3.Value))
-                            //    {
-                            //        var discountedItemQuantity = checkoutItems[discountedItem.Item3.Value];
-                            //        var timesToApplyFreeItem = 0;
-                            //        if(discountedItemQuantity >= discountsApplied)
-                            //        {
-                            //            timesToApplyFreeItem = discountsApplied;
-                            //        }
-                            //        else
-                            //        {
-                            //            timesToApplyFreeItem = discountedItemQuantity;
-                            //        }
-                            //        total -= timesToApplyFreeItem * itemPricing[discountedItem.Item3.Value];
-                            //    }
-
-                            //}
                         }
                     }
 
@@ -112,3 +97,4 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
