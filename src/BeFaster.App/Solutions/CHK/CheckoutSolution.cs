@@ -64,7 +64,16 @@ namespace BeFaster.App.Solutions.CHK
                             {if(checkoutItems.ContainsKey(discountedItem.Item3.Value))
                                 {
                                     var discountedItemQuantity = checkoutItems[discountedItem.Item3.Value];
-
+                                    var timesToApplyFreeItem = 0;
+                                    if(discountedItemQuantity >= discountsApplied)
+                                    {
+                                        timesToApplyFreeItem = discountsApplied;
+                                    }
+                                    else
+                                    {
+                                        timesToApplyFreeItem = discountedItemQuantity;
+                                    }
+                                    total -= timesToApplyFreeItem * itemPricing[discountedItem.Item3.Value];
                                 }
 
                             }
@@ -78,5 +87,6 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
