@@ -21,7 +21,7 @@ namespace BeFaster.App.Solutions.CHK
                 { 'D', 15 },
                 {'E',40 },
             };
-            Dictionary<char, List<(int, int, char?)>> itemDiscounts = new()
+            Dictionary<char, List<(int ItemQuantity, int ItemQuantityPrice, char? FreeItem)>> itemDiscounts = new()
             {
                 { 'A', [(5, 200,null),(3, 130,null)] },
                 { 'B', [(2, 45,null)] },
@@ -111,6 +111,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
