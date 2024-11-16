@@ -8,14 +8,18 @@ namespace BeFaster.App.Solutions.CHK
         public static int ComputePrice(string? skus)
         {
             int total = 0;
-            Dictionary<char, int> itemPricing = new();
-            itemPricing.Add('A', 50);
-            itemPricing.Add('B', 30);
-            itemPricing.Add('C', 20);
-            itemPricing.Add('D', 15);
-            Dictionary<char, (int,int)> itemDiscounts = new();
-            itemDiscounts.Add('A', (3,130));
-            itemDiscounts.Add('B',(2, 45));
+            Dictionary<char, int> itemPricing = new()
+            {
+                { 'A', 50 },
+                { 'B', 30 },
+                { 'C', 20 },
+                { 'D', 15 }
+            };
+            Dictionary<char, (int,int)> itemDiscounts = new()
+            {
+                { 'A', (3, 130) },
+                { 'B', (2, 45) }
+            };
             if (string.IsNullOrEmpty(skus))
             {
                 return 0;
@@ -28,15 +32,28 @@ namespace BeFaster.App.Solutions.CHK
                 checkoutItems.Add(sku, 1);
             }
             foreach(var checkoutItem in checkoutItems)
-            {
-               if(itemDiscounts.Keys.Contains(checkoutItem.Key))
+            {var item= checkoutItem.Key;
+              var quantity = checkoutItem.Value;
+                if (itemDiscounts.Keys.Contains(checkoutItem.Key))
                     {
-                    if(checkoutItem.Value>itemDiscounts)
+                    var discountedItem = itemDiscounts[checkoutItem.Key];
+                    if (checkoutItem.Value >discountedItem.Item1)
+                    {
+                        var discountsApplied = quantity / discountedItem.Item1;
+                        var discountsLeft = quantity % discountedItem.Item1;
+                        total += discountsApplied * discountedItem.Item2 + discountsLeft * itemPricing[item];
+                    }
+                }
+                else
+                {
+                    total += quantity * itemPricing[item];
                 }
             }
+            return total;
         }
     }
 }
+
 
 
 
