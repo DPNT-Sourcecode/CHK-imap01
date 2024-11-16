@@ -77,10 +77,12 @@ namespace BeFaster.App.Solutions.CHK
                     }
                     if (item == freeItem)
                     {
-                        int totalItemsUsed = timesToApply * discountedItem.ItemQuantity + timesToApply;
-                        if (checkoutItemQuantity >= totalItemsUsed)
+                        int totalItemsDiscounted = timesToApply * discountedItem.ItemQuantity ;
+                        int totalFreeItems = timesToApply;
+                        if (checkoutItemQuantity >= totalItemsDiscounted+ totalFreeItems)
                         {
-                            checkoutItems[item] -= totalItemsUsed;
+                            checkoutItems[item] -= totalItemsDiscounted;
+                            checkoutItems[item] -= totalFreeItems;
                         }
                         else
                         {
@@ -119,6 +121,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
