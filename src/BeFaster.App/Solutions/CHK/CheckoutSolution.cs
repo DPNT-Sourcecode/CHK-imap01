@@ -64,66 +64,33 @@ namespace BeFaster.App.Solutions.CHK
                 {
                     var numOfOffers=itemCounts[sku] / quantityRequired;
                     if (numOfOffers>0)
-                    {
-                        if(itemCounts.ContainsKey(freeItemSKU))
-                            itemCounts[freeItemSKU]=Math.Max(0,itemCounts[freeItemSKU] - numOfOffers * freeItemQuantity.Value);
-                    }
-                }
-            }
-            foreach (var checkoutItem in checkoutItems.ToList())
-            {
-                var item = checkoutItem.Key;
-                var quantity = checkoutItem.Value;
-                if (!itemDiscounts.ContainsKey(checkoutItem.Key))
-                {
-                    total += quantity * itemPricing[item];
-                    continue;
-                }
-                var sortedDiscounts = itemDiscounts[item]
-                    .OrderByDescending(x => x.ItemQuantity)
-                    .ThenBy(x => x.FreeItem.HasValue).ToList();
-                foreach (var discountedItem in sortedDiscounts)
-                {
-                    if (quantity < discountedItem.ItemQuantity)
-                    {
-                        continue;
-                    }
-                    var discountsApplied = quantity / discountedItem.ItemQuantity;
-                    total += discountsApplied * discountedItem.ItemQuantityPrice;
-                    quantity -= discountsApplied * discountedItem.ItemQuantity;
-                    if (discountedItem.FreeItem.HasValue)
-                    {
-
-                        var freeItem = discountedItem.FreeItem.Value;
-
-                        if (checkoutItems.ContainsKey(freeItem))
+                    {if (freeItemSKU == sku)
                         {
-                            var freeItemsToApply = discountsApplied;
-                            if (checkoutItems[freeItem] >= freeItemsToApply)
+                            int totalGroupSize = quantityRequired + freeItemQuantity;
+                            int numOfGroups = itemCounts[sku] / totalGroupSize;
+                            int remainingItems = itemCounts[sku] % totalGroupSize;
+                            int chargeableItems = numOfGroups * quantityRequired;
+                            if (remainingItems >= quantityRequired)
                             {
-                                checkoutItems[freeItem] -= freeItemsToApply;
-
+                                chargeableItems += quantityRequired;
                             }
-                            else
-                            {
-                                freeItemsToApply = checkoutItems[freeItem];
-                                checkoutItems[freeItem] = 0;
-                            }
-                           total -= freeItemsToApply * itemPricing[freeItem];
+                            else { chargeableItems += remainingItems; }
+                            itemCounts[sku] = chargeableItems;
                         }
-
+                        else
+                        {
+                            if (itemCounts.ContainsKey(freeItemSKU))
+                            {
+                                itemCounts[freeItemSKU] = Math.Max(0, itemCounts[freeItemSKU] - numOfOffers * freeItemQuantity.Value);
+                            }
+                        }
                     }
                 }
-                if (quantity > 0)
-                {
-                    total += quantity * itemPricing[item];
-                }
             }
-
-
-            return total;
+           
         }
     }
 }
+
 
 
