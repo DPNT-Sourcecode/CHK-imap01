@@ -23,13 +23,13 @@ namespace BeFaster.App.Solutions.CHK
                 {'E',40 },
                 {'F',10 },
             };
-           List<(char SKU,int Quantity, int? DiscountedPrice, char? FreeItemSKU,int? FreeItemQuantity)> itemDiscounts = new()
+           List<(char SKU,int QuantityRequired, int? DiscountedPrice, char? FreeItemSKU,int? FreeItemQuantity)> itemDiscounts = new()
             {
-                {( 'A', 5, 200,null) },
-               {('A', 3, 130, null) },
-                {( 'B', 2, 45,null) },
-                {('E',2, 80,'B')  },
-                {('F',2, 20,'F')   }
+                {( 'A', 5, 200,null,null) },
+               {('A', 3, 130, null, null) },
+                {('B', 2, 45, null, null) },
+                {('E', 2,null, 'B', 1)  },
+                {('F', 2, null, 'F',1)   }
             };
 
             Dictionary<char, int> checkoutItems = new();
@@ -47,6 +47,23 @@ namespace BeFaster.App.Solutions.CHK
                 else
                 {
                     checkoutItems[sku] = ++value;
+                }
+            }
+            var itemCounts=new Dictionary<char, int>();
+            foreach(var discount in itemDiscounts)
+            {
+               var sku = discount.SKU;
+                var quantityRequired=discount.Quantity;
+                var freeItemSKU=(char)discount.FreeItemSKU;
+                var freeItemQuantity = discount.FreeItemQuantity;
+                if (itemCounts.ContainsKey(sku))
+                {
+                    var numOfOffers=itemCounts[sku] / quantityRequired;
+                    if (numOfOffers>0)
+                    {
+                        if(itemCounts.ContainsKey(freeItemSKU))
+                            itemCounts[freeItemSKU]=Math.Max(0,itemCounts[freeItemSKU] - numOfOffers * freeItemQuantity.Value);
+                    }
                 }
             }
             foreach (var checkoutItem in checkoutItems.ToList())
@@ -104,9 +121,3 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
-
-
-
-
-
-
