@@ -65,28 +65,22 @@ namespace BeFaster.App.Solutions.CHK
                     {
                         continue;
                     }
-
                     if (!checkoutItems.ContainsKey(discountedItem.FreeItem.Value) || checkoutItemQuantity < discountedItem.ItemQuantity)
                     {
                         continue;
                     }
-                    if(discountedItem.FreeItem.Value == item && discountedItem.ItemQuantity==checkoutItemQuantity)
+                    var timesToApply = checkoutItemQuantity / discountedItem.ItemQuantity;
+                    var freeItemsToAdd = timesToApply * discountedItem.FreeItem.Value;
+                    checkoutItemQuantity -= timesToApply * discountedItem.FreeItem.Value;
+                    if (checkoutItems.ContainsKey(discountedItem.FreeItem.Value))
                     {
-                        continue;
+                        checkoutItems[discountedItem.FreeItem.Value] += freeItemsToAdd;
                     }
-                  
-                        var timesToApply = checkoutItemQuantity / discountedItem.ItemQuantity;
-                    var freeItemsToAdd= timesToApply * discountedItem.FreeItem.Value;
-                        checkoutItemQuantity -= timesToApply*discountedItem.FreeItem.Value;
-                        if(checkoutItems.ContainsKey(discountedItem.FreeItem.Value))
-                        {
-                            checkoutItems[discountedItem.FreeItem.Value] += freeItemsToAdd;
-                        }
-                        else
-                        {
-                            checkoutItems.Add(discountedItem.FreeItem.Value, freeItemsToAdd);
-                        }
-                    
+                    else
+                    {
+                        checkoutItems.Add(discountedItem.FreeItem.Value, freeItemsToAdd);
+                    }
+
                 }
             }
             foreach (var checkoutItem in checkoutItems)
@@ -113,9 +107,3 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
-
-
-
-
-
-
