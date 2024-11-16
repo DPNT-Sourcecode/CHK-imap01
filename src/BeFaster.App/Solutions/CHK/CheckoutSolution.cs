@@ -58,7 +58,7 @@ namespace BeFaster.App.Solutions.CHK
                 }
                 else
                 {
-                    var sortedDiscounts = itemDiscounts[item].Where(x => x.FreeItem is null).OrderByDescending(x => x.ItemQuantity).ToList();
+                    var sortedDiscounts = itemDiscounts[item].OrderByDescending(x => x.ItemQuantity).ThenBy(x=>x.FreeItem.HasValue).ToList();
                     foreach (var discountedItem in sortedDiscounts)
                     {
                      
@@ -99,6 +99,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
