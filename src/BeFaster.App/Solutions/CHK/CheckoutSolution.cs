@@ -83,7 +83,8 @@ namespace BeFaster.App.Solutions.CHK
                         {
                             checkoutItems[freeItem] -= freeItemsToApply;
                         }
-                        else { checkoutItems[freeItem] = 0; }
+                        else {
+                            checkoutItems[freeItem] = 0; }
                     }
                 }
                 if(quantity>0)
@@ -95,6 +96,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
