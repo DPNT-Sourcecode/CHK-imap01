@@ -53,26 +53,29 @@ namespace BeFaster.App.Solutions.CHK
             {
                 var item = checkoutItem.Key;
                 var checkoutItemQuantity = checkoutItem.Value;
-                if (itemDiscounts.ContainsKey(checkoutItem.Key))
+                if (!itemDiscounts.ContainsKey(checkoutItem.Key))
                 {
-                    var itemDiscount = itemDiscounts[item];
-                    var sortedDiscounts = itemDiscounts[item].OrderByDescending(x => x.ItemQuantity).OrderBy(x => x.FreeItem.HasValue);
-                    foreach (var discountedItem in sortedDiscounts)
+                    continue;
+                }
+                var itemDiscount = itemDiscounts[item];
+                var sortedDiscounts = itemDiscounts[item].OrderByDescending(x => x.ItemQuantity).OrderBy(x => x.FreeItem.HasValue);
+                foreach (var discountedItem in sortedDiscounts)
+                {
+                    if (!discountedItem.FreeItem.HasValue)
                     {
-                        if (discountedItem.FreeItem.HasValue)
-                        {
+                        continue;
+                    }
 
-                            if (checkoutItems.ContainsKey(discountedItem.FreeItem.Value) && checkoutItemQuantity >= discountedItem.ItemQuantity)
-                            {
-                                while (checkoutItemQuantity >= discountedItem.ItemQuantity)
-                                {
-                                    var discountedItemQuantity = checkoutItems[discountedItem.FreeItem.Value];
-                                    var quantityToRemove = discountedItem.FreeItem.Value.ToString().Length;
-                                    checkoutItems[discountedItem.FreeItem.Value] -= quantityToRemove;
-                                    checkoutItemQuantity -= discountedItem.ItemQuantity;
-                                }
-                            }
-                        }
+                    if (!checkoutItems.ContainsKey(discountedItem.FreeItem.Value) || checkoutItemQuantity < discountedItem.ItemQuantity)
+                    {
+                        continue;
+                    }
+                    while (checkoutItemQuantity >= discountedItem.ItemQuantity)
+                    {
+                        var discountedItemQuantity = checkoutItems[discountedItem.FreeItem.Value];
+                        var quantityToRemove = discountedItem.FreeItem.Value.ToString().Length;
+                        checkoutItems[discountedItem.FreeItem.Value] -= quantityToRemove;
+                        checkoutItemQuantity -= discountedItem.ItemQuantity;
                     }
                 }
             }
@@ -100,6 +103,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
