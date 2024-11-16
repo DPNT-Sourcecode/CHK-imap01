@@ -49,7 +49,7 @@ namespace BeFaster.App.Solutions.CHK
             }
             //free items
 
-            foreach (var checkoutItem in checkoutItems.ToList())
+            foreach (var checkoutItem in checkoutItems)
             {
                 var item = checkoutItem.Key;
                 var checkoutItemQuantity = checkoutItem.Value;
@@ -119,10 +119,3 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
-
-
-
-
-
-
-
