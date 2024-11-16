@@ -83,11 +83,13 @@ namespace BeFaster.App.Solutions.CHK
 
                     if (item == freeItem)
                     {
-                        totalItemsDiscounted += totalFreeItems;
+                        totalItemsDiscounted+= totalFreeItems;
                     }
                     else if (checkoutItems.ContainsKey(freeItem))
                     {
-                        checkoutItems[discountedItem.FreeItem.Value] -= timesToApply;
+                        if (checkoutItems[freeItem] >= totalFreeItems)
+                       checkoutItems[freeItem] -= totalFreeItems;
+                        else { checkoutItems[freeItem] = 0; }
                     } 
                     
                
@@ -117,6 +119,7 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
 
 
 
