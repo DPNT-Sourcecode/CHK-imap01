@@ -61,7 +61,10 @@ namespace BeFaster.App.Solutions.CHK
                     var sortedDiscounts = itemDiscounts[item].OrderByDescending(x => x.ItemQuantity).ThenBy(x=>x.FreeItem.HasValue).ToList();
                     foreach (var discountedItem in sortedDiscounts)
                     {
-                     
+                     if(quantity < discountedItem.ItemQuantity)
+                        {
+                            continue;
+                        }
                         var discountsApplied = quantity / discountedItem.ItemQuantity;
                         total += discountsApplied * discountedItem.ItemQuantityPrice;
                         quantity -= discountsApplied * discountedItem.ItemQuantity;
@@ -100,3 +103,4 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
