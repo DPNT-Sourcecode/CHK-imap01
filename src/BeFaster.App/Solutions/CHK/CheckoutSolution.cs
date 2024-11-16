@@ -74,7 +74,7 @@ namespace BeFaster.App.Solutions.CHK
 
                         var freeItem = discountedItem.FreeItem.Value;
 
-                        if (checkoutItems.ContainsKey(freeItem))
+                        if (checkoutItems.ContainsKey(freeItem) && checkoutItems[freeItem]>0)
                         {
                             var freeItemsToApply = discountsApplied;
                             if (checkoutItems[freeItem] >= freeItemsToApply)
@@ -103,3 +103,4 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
