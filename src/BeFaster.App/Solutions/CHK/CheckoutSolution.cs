@@ -50,7 +50,7 @@ namespace BeFaster.App.Solutions.CHK
                 {('B', 2, 45) },
                 {('H', 5, 45) },
                   {('H', 10,80) },
-                {('K', 2, 150) },
+                {('K', 2, 120) },
                 {('P', 5,200) },
                 {('Q', 3, 80) },
                 {('V', 2, 90) },
@@ -185,3 +185,4 @@ namespace BeFaster.App.Solutions.CHK
         }
     }
 }
+
